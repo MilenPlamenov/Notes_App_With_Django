@@ -1,0 +1,16 @@
+{% extends "notes_list.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <h1 class="text-center p-1">Update note:<span class="text-primary fw-bold"> {{ object.subject }}</span></h1>
+    <div class="form-control flex-nowrap related-lookup p-3">
+        <form method="post" class="form-control">
+            {% csrf_token %}
+            <div class="container form-control w-75 p-2">
+                {{ form| crispy }}
+                <input type="submit" value="Save" class="form-control-plaintext btn-success m-1">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
