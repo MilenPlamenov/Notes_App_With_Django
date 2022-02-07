@@ -40,8 +40,8 @@
                     <li>Subject: {{ object.subject }}</li>
                     <li>Message: {{ object.text }}</li>
                     <li class="pb-2">Date: {{ object.date }}</li>
-                    <a class="button btn btn-primary p-2" href="update/{{ object.id }}/">Update</a>
-                    <a class="button btn btn-danger p-2" href="delete/{{ object.id }}/">Delete</a>
+                    <a class="button btn btn-primary p-2" href="{% url 'note update' object.id %}">Update</a>
+                    <a class="button btn btn-danger p-2" href="{% url 'note delete' object.id %}">Delete</a>
                     <hr/>
                 {% endfor %}
                 {% else %}
