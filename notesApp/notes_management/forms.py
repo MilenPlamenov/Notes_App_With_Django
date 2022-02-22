@@ -41,17 +41,26 @@ class EditProfile(forms.ModelForm):
         model = User
         fields = ("username",)
 
+    def __init__(self, *args, **kwargs):  # rewriting the init method to remove the help text from the fields
+        super(EditProfile, self).__init__(*args, **kwargs)
+        for field_name in ['username']:
+            self.fields[field_name].help_text = None
+
 
 class CreateNote(forms.ModelForm):
     class Meta:
         model = Note
         fields = ["subject", "text", "date", "image_url"]
+        labels = {
+            "image_url": "Image for your note",
+
+        }
 
 
 class EditNote(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ["subject", "text", "date"]
+        fields = ["subject", "text", "date", "image_url"]
 
 
 class DeleteNote(forms.ModelForm):

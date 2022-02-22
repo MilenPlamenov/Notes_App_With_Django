@@ -10,13 +10,11 @@
             {% csrf_token %}
 
             <!-- Using the formset -->
-            <div class="container form-control w-75 p-2">
+            <div class="container w-75 p-2">
                 {{ form | crispy }}
                 <input class="form-control-plaintext btn-success m-1" type="submit" value="Save">
             </div>
         </form>
-        <div class="text-center form-control fw-bold">
-        </div>
     </div>
 
 

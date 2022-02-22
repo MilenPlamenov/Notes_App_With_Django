@@ -71,12 +71,13 @@ def update_note(request, pk):
     if request.method == "GET":
         form = EditNote(instance=note)
     else:
-        form = EditNote(request.POST, instance=note)
+        form = EditNote(request.POST, request.FILES, instance=note)
         if form.is_valid():
             form.save()
             return redirect("notes list")
     context = {
         "form": form,
+        "note": note,
     }
     return render(request, "update_notes.html", context)
 
