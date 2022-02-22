@@ -1,0 +1,23 @@
+{% extends 'notes_list.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <h1 class="text-center">Login</h1>
+    <div class="form-control flex-nowrap related-lookup p-3">
+        <form method="POST" enctype="multipart/form-data">
+
+            <!-- Security token -->
+            {% csrf_token %}
+
+            <!-- Using the formset -->
+            <div class="container form-control w-75 p-2">
+                {{ form | crispy }}
+                <input class="form-control-plaintext btn-success m-1" type="submit" value="Login">
+            </div>
+
+        </form>
+        <div class="text-center form-control fw-bold">
+            <span>Don't have account? <a href="{% url 'create profile' %}">Register</a></span>
+        </div>
+    </div>
+{% endblock %}

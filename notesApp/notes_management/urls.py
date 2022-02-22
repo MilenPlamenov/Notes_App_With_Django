@@ -1,11 +1,17 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 
-from notesApp.notes_management.views import NotesListView, NoteCreate, NotesDetailView, NotesUpdateView, NotesDeleteView
+from notesApp.notes_management.views import notes_list, create_note, NotesDetailView, update_note, \
+    NotesDeleteView, create_profile, login_view, delete_note, edit_profile
 
 urlpatterns = [
-    path('', NotesListView.as_view(), name="notes list"),
-    path('create/', NoteCreate.as_view(), name="note create"),
-    path('<int:pk>/', NotesDetailView.as_view(), name="note detail"),
-    path('update/<int:pk>/', NotesUpdateView.as_view(), name="note update"),
-    path('delete/<int:pk>/', NotesDeleteView.as_view(), name="note delete"),
+    path('', notes_list, name="notes list"),
+    path('create/', create_note, name="note create"),
+    path('details/<int:pk>/', NotesDetailView.as_view(), name="note detail"),
+    path('update/<int:pk>/', update_note, name="note update"),
+    path('delete/<int:pk>/', delete_note, name="note delete"),
+    path('profile/create/', create_profile, name="create profile"),
+    path('profile/edit/<int:pk>/', edit_profile, name="edit profile"),
+    path('logout/', LogoutView.as_view(), name="logout"),
+    path('login/', login_view, name="login"),
 ]

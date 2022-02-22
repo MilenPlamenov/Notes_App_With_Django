@@ -10,7 +10,7 @@
 <body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container">
-        <h4 class="navbar-brand text-warning">Simple notes app</h4>
+        <a href="{% url 'notes list' %}" class="navbar-brand text-warning">Notes app</a>
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -19,12 +19,28 @@
         </button>
         <div class="collapse navbar-collapse" id="navmenu">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'note create' %}">Create Note</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'notes list' %}">All Notes</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link text-danger text-decoration-underline"
+                           href="{% url 'edit profile' user.id %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'note create' %}">Create Note</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'notes list' %}">All Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create profile' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
