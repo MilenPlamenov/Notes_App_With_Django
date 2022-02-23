@@ -95,6 +95,7 @@ def delete_note(request, pk):
     if request.method == "GET":
         form = DeleteNote()
     else:
+        note.image_url.delete()
         note.delete()
         return redirect("notes list")
 
