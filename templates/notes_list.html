@@ -71,11 +71,13 @@
                                     <a class="button btn btn-lg btn-danger p-2"
                                        href="{% url 'note delete' object.id %}">Delete</a>
                                 </div>
+                                {% if object.image_url %}
                                 <img
                                         class="img-fluid w-25 h-25 d-none d-sm-block"
                                         src="{{ object.image_url.url }}"
                                         alt="note"
                                 />
+                                {% endif %}
                             </div>
                         </div>
                     <hr/>

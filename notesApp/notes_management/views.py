@@ -89,6 +89,16 @@ class NotesDeleteView(DeleteView):
 
 
 def delete_note(request, pk):
+    if request.method == "GET":
+        pass
+    else:
+        pass
+
+    context = {}
+    return render(request, "delete_notes.html", context)
+
+
+def delete_note(request, pk):
     note = Note.objects.get(pk=pk)
     if note.user != request.user:
         return redirect("notes list")

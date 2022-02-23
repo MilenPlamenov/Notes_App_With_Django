@@ -39,7 +39,7 @@ class CreateProfile(UserCreationForm):
 class EditProfile(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("username",)
+        fields = ("username", "first_name", "last_name",)  # added first and last name / easier register in the app
 
     def __init__(self, *args, **kwargs):  # rewriting the init method to remove the help text from the fields
         super(EditProfile, self).__init__(*args, **kwargs)
@@ -61,6 +61,10 @@ class EditNote(forms.ModelForm):
     class Meta:
         model = Note
         fields = ["subject", "text", "date", "image_url"]
+        labels = {
+            "image_url": "Image for your note",
+
+        }
 
 
 class DeleteNote(forms.ModelForm):

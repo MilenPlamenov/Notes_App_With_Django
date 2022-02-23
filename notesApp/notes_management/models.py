@@ -24,6 +24,8 @@ class Note(models.Model):
 
     image_url = models.ImageField(
         upload_to=IMAGE_UPLOAD_URL,
+        blank=True,
+        null=True,
     )
 
     user = models.ForeignKey(
