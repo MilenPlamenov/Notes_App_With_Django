@@ -1,9 +1,12 @@
-from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from django.contrib.auth import login, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views import generic
 
-from notesApp.notes_management.forms import CreateProfile, LoginProfile, CreateNote, EditNote, DeleteNote, EditProfile
+from notesApp.notes_management.forms import CreateProfile, LoginProfile, CreateNote, EditNote, DeleteNote, EditProfile, \
+    PasswordChange
 from notesApp.notes_management.models import Note
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -162,3 +165,25 @@ def login_view(request):
         "form": form,
     }
     return render(request, "login_profile.html", context)
+
+
+def change_password(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        form = PasswordChange(user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('notes list')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChange(request.user)
+
+    context = {
+        "form": form,
+    }
+    return render(request, "change_password.html", context)

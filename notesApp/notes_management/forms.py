@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 
 from notesApp.notes_management.models import Note
@@ -102,3 +102,11 @@ class LoginProfile(forms.ModelForm):
             password = self.cleaned_data["password"]
             if not authenticate(username=username, password=password):
                 raise forms.ValidationError("Invalid credentials")
+
+
+class PasswordChange(PasswordChangeForm):
+
+    def __init__(self, *args, **kwargs):  # rewriting the init method to remove the help text from the fields
+        super(PasswordChange, self).__init__(*args, **kwargs)
+        for field_name in ['new_password1']:
+            self.fields[field_name].help_text = None
