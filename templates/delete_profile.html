@@ -2,7 +2,7 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-    <h1 class="text-center">Edit profile</h1>
+    <h1 class="text-center">Delete profile</h1>
     <div class="form-control flex-nowrap related-lookup p-3">
         <form method="POST" enctype="multipart/form-data">
 
@@ -12,15 +12,12 @@
             <!-- Using the formset -->
             <div class="container w-75 p-2">
                 {{ form | crispy }}
-                <input class="form-control-plaintext btn-success m-1" type="submit" value="Save">
+                <input class="form-control-plaintext btn-danger m-1" type="submit" value="Delete">
             </div>
         </form>
     </div>
     <div class="container text-center text-decoration-underline fw-bold">
-    <a href="{% url 'change password' %}">Reset your password</a>
-    </div>
-    <div class="container text-center text-decoration-underline fw-bold">
-        <a class="btn btn-danger" href="{% url 'delete profile' user.id %}">DELETE</a>
+    <a href="{% url 'notes list' %}">Undo</a>
     </div>
 
 

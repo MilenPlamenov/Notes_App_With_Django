@@ -47,6 +47,12 @@ class EditProfile(forms.ModelForm):
             self.fields[field_name].help_text = None
 
 
+class DeleteProfile(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name",)
+
+
 class CreateNote(forms.ModelForm):
     class Meta:
         model = Note
@@ -110,3 +116,5 @@ class PasswordChange(PasswordChangeForm):
         super(PasswordChange, self).__init__(*args, **kwargs)
         for field_name in ['new_password1']:
             self.fields[field_name].help_text = None
+
+

@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.views import generic
 
 from notesApp.notes_management.forms import CreateProfile, LoginProfile, CreateNote, EditNote, DeleteNote, EditProfile, \
-    PasswordChange
+    PasswordChange, DeleteProfile
 from notesApp.notes_management.models import Note
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -93,6 +93,7 @@ class NotesDeleteView(DeleteView):
 
 def delete_note(request, pk):
     note = Note.objects.get(pk=pk)
+
     if note.user != request.user:
         return redirect("notes list")
     if request.method == "GET":
@@ -166,6 +167,26 @@ def login_view(request):
     }
     return render(request, "login_profile.html", context)
 
+
+def delete_profile(request, pk):
+    profile = User.objects.get(pk=pk)
+    if profile != request.user:
+        return redirect("notes list")
+    if not request.user.is_authenticated:
+        return redirect('create profile')
+    if request.method == "GET":
+        form = DeleteProfile(instance=profile)
+    else:
+        form = DeleteProfile(request.POST, instance=profile)
+        if form.is_valid():
+            profile.delete()
+            return redirect('create profile')
+    context = {
+        "form": form,
+        "profile": profile,
+    }
+
+    return render(request, "delete_profile.html", context)
 
 def change_password(request):
     user = request.user
