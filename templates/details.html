@@ -1,7 +1,14 @@
 {% extends "notes_list.html" %}
 
 {% block content %}
-    <h1>{{ object.subject }}</h1>
+    <h1 class="text-center">Subject - {{ object.subject }}</h1>
     <hr/>
-    <h2>{{ object.text }}</h2>
+    <h2 class="text-center">Description - {{ object.text }}</h2>
+    <hr/>
+    <h3 class="text-center">Owner - {{ object.user }}</h3>
+    <hr/>
+    <h4 class="text-center">Note picture</h4>
+    <img class="img-responsive w-25 rounded mx-auto d-block text-center" alt="{{ object.subject }} note"
+         src="{{ object.image_url.url }}">
+    <hr/>
 {% endblock %}

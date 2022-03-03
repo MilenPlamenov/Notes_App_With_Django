@@ -19,13 +19,8 @@ from django.views.generic.detail import DetailView
 
 
 def notes_list(request):
-    if not request.user.is_authenticated:
-        return redirect("create profile")
-    notes = Note.objects.filter(user=request.user)
-
     context = {
-        "notes": notes,
-
+        "notes": Note.objects.all()
     }
     return render(request, "notes_list.html", context)
 
@@ -38,6 +33,8 @@ def notes_list(request):
 
 
 def create_note(request):
+    if not request.user.is_authenticated:
+        return redirect("create profile")
     if request.method == 'POST':
         form = CreateNote(request.POST, request.FILES)
         if form.is_valid():
@@ -68,6 +65,8 @@ class NotesUpdateView(UpdateView):
 
 
 def update_note(request, pk):
+    if not request.user.is_authenticated:
+        return redirect("create profile")
     note = Note.objects.get(pk=pk)
     if note.user != request.user:
         return redirect("notes list")
@@ -92,6 +91,8 @@ class NotesDeleteView(DeleteView):
 
 
 def delete_note(request, pk):
+    if not request.user.is_authenticated:
+        return redirect("create profile")
     note = Note.objects.get(pk=pk)
 
     if note.user != request.user:
@@ -187,6 +188,7 @@ def delete_profile(request, pk):
     }
 
     return render(request, "delete_profile.html", context)
+
 
 def change_password(request):
     user = request.user

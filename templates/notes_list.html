@@ -47,7 +47,7 @@
 </nav>
 {% block content %}
     {% if notes %}
-        <h1 class="text-center">Your notes</h1>
+        <h1 class="text-center">Notes</h1>
         <div class="container p-3 form-control">
             <ul class="p-2">
                 <!-- Iterate over object_list -->
@@ -66,26 +66,32 @@
                                     <p>
                                         Made: {{ object.date }}
                                     </p>
-                                    <a class="button btn btn-lg btn-primary p-2"
-                                       href="{% url 'note update' object.id %}">Update</a>
-                                    <a class="button btn btn-lg btn-danger p-2"
-                                       href="{% url 'note delete' object.id %}">Delete</a>
+                                    <p class="fw-bold text-decoration-underline">
+                                        Owner: {{ object.user }}
+                                    </p>
+                                    {% if request.user == object.user %}
+                                        <a class="button btn btn-lg btn-primary p-2"
+                                           href="{% url 'note update' object.id %}">Update</a>
+                                        <a class="button btn btn-lg btn-danger p-2"
+                                           href="{% url 'note delete' object.id %}">Delete</a>
+                                    {% endif %}
+                                <a class="button btn btn-lg btn-warning p-2" href="{% url 'note detail' object.id %}">Details</a>
                                 </div>
                                 {% if object.image_url %}
-                                <img
-                                        class="img-fluid w-25 h-25 d-none d-sm-block"
-                                        src="{{ object.image_url.url }}"
-                                        alt="note"
-                                />
+                                    <img
+                                            class="img-fluid w-25 h-25 d-none d-sm-block"
+                                            src="{{ object.image_url.url }}"
+                                            alt="note"
+                                    />
                                 {% endif %}
                             </div>
                         </div>
-                    <hr/>
+                        <hr/>
                     </section>
                 {% endfor %}
                 {% else %}
                 <h2 class="fw-bold text-center p-4">There are any notes in the library</h2>
-                <a class="text-center fw-bolder" href="{% url "note create" %}">Add note</a>
+                <a class="text-center fw-bolder" href="{% url "note create" %}">Add the first note</a>
             </ul>
         </div>
     {% endif %}
