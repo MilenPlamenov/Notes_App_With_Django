@@ -12,10 +12,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 
 
-# class NotesListView(generic.ListView):
-#     model = Note
-#     context_object_name = "notes"
-#     template_name = "notes_list.html"
+class NotesListView(generic.ListView):
+    model = Note
+    context_object_name = "notes"
+    template_name = "notes_list.html"
 
 
 def notes_list(request):
