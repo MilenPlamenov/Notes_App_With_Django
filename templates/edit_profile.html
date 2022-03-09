@@ -11,16 +11,17 @@
 
             <!-- Using the formset -->
             <div class="container w-75 p-2">
-                {{ form | crispy }}
+                {{ user_form | crispy }}
+                {{ profile_form | crispy }}
                 <input class="form-control-plaintext btn-success m-1" type="submit" value="Save">
             </div>
         </form>
     </div>
-    <div class="container text-center text-decoration-underline fw-bold">
-    <a href="{% url 'change password' %}">Reset your password</a>
+    <div class="container form-control-plaintext text-center text-decoration-underline fw-bold">
+        <a class="" href="{% url 'change password' %}">Change your password</a>
     </div>
-    <div class="container text-center text-decoration-underline fw-bold">
-        <a class="btn btn-danger" href="{% url 'delete profile' user.id %}">DELETE</a>
+    <div class="container form-control text-center text-decoration-underline fw-bold">
+        <a class="btn btn-danger" href="{% url 'delete profile' user.id %}">Deactivate account</a>
     </div>
 
 

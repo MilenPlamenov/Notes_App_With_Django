@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.shortcuts import redirect, render
 from django.views import generic
 
 from notesApp.notes_management.forms import CreateProfile, LoginProfile, CreateNote, EditNote, DeleteNote, EditProfile, \
-    PasswordChange, DeleteProfile
+    PasswordChange, DeleteProfile, ProfileForm, EditExtendedProfile
 from notesApp.notes_management.models import Note
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -111,37 +112,51 @@ def delete_note(request, pk):
     return render(request, "delete_notes.html", context)
 
 
+@transaction.atomic  # if one operation is invalid - all are
 def create_profile(request):
     if request.method == "GET":
-        form = CreateProfile()
+        user_form = CreateProfile()
+        profile_form = ProfileForm()
     else:
-        form = CreateProfile(request.POST)
-        if form.is_valid():
-            user = form.save()
+        user_form = CreateProfile(request.POST)
+        profile_form = ProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
             login(request, user)
-            return redirect('notes list')
+            return redirect('/')
 
     context = {
-        "form": form,
+        "user_form": user_form,
+        "profile_form": profile_form,
     }
     return render(request, 'create_profile.html', context)
 
 
+@transaction.atomic
 def edit_profile(request, pk):
-    profile = User.objects.get(pk=pk)
-    if profile != request.user:
+    profile = request.user.get_username()
+    if profile != request.user.username:
         return redirect("notes list")
 
     if request.method == "GET":
-        form = EditProfile(instance=profile)
+        user_form = EditProfile(instance=request.user)
+        profile_form = EditExtendedProfile(instance=request.user.profile)
     else:
-        form = EditProfile(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
+        user_form = EditProfile(request.POST, instance=request.user)
+        profile_form = EditExtendedProfile(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             return redirect("notes list")
 
     context = {
-        "form": form,
+        "user_form": user_form,
+        "profile_form": profile_form,
     }
     return render(request, "edit_profile.html", context)
 
@@ -176,15 +191,14 @@ def delete_profile(request, pk):
     if not request.user.is_authenticated:
         return redirect('create profile')
     if request.method == "GET":
-        form = DeleteProfile(instance=profile)
+        user_form = EditProfile(instance=request.user)
+        profile_form = EditExtendedProfile(instance=request.user.profile)
     else:
-        form = DeleteProfile(request.POST, instance=profile)
-        if form.is_valid():
-            profile.delete()
-            return redirect('create profile')
+        profile.delete()
+        return redirect('create profile')
     context = {
-        "form": form,
-        "profile": profile,
+        "user_form": user_form,
+        "profile_form": profile_form,
     }
 
     return render(request, "delete_profile.html", context)

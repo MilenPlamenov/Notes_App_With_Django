@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'notesApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'mivkata',
         'USER': 'postgres',
         'PASSWORD': '123321',
         'HOST': '127.0.0.1',
