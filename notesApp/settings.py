@@ -5,7 +5,6 @@ from notesApp import notes_management
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-a00*19*x2i=--@-+8@$^&bjt$53fk0%337g8jj#4ha=)6w(4x3'
 
@@ -13,7 +12,6 @@ SECRET_KEY = 'django-insecure-a00*19*x2i=--@-+8@$^&bjt$53fk0%337g8jj#4ha=)6w(4x3
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 DJANGO_APPS = (
     'django.contrib.admin',
@@ -26,6 +24,7 @@ DJANGO_APPS = (
 
 APPLICATION_APPS = (
     'notesApp.notes_management',
+    'notesApp.auth_management'
 )
 
 THIRD_PARTY_APPS = (
@@ -65,7 +64,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'notesApp.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -102,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -110,7 +107,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -123,15 +119,11 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGOUT_REDIRECT_URL = "/"
-
-
