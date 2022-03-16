@@ -184,6 +184,7 @@ def login_view(request):
     return render(request, "login_profile.html", context)
 
 
+@transaction.atomic
 def delete_profile(request, pk):
     profile = User.objects.get(pk=pk)
     if profile != request.user:

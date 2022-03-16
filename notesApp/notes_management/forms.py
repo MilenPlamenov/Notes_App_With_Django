@@ -74,12 +74,12 @@ class DeleteExtendedProfile(forms.ModelForm):
         fields = ('description', 'birth', 'gender')
         # widgets dont work gt fix this
         widgets = {
-            "description": forms.TextInput(
+            'description': forms.TextInput(
                 attrs={
                     'disabled': True,
                 }
             ),
-            "birth": forms.TextInput(
+            'birth': forms.TextInput(
                 attrs={
                     'disabled': True,
                 }
