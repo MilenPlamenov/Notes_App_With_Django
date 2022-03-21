@@ -1,0 +1,7 @@
+{% extends 'notes_list.html' %}
+{% block content %}
+    <div class="container p-2">
+        <h1 class="text-center text-success">You paid successfully {{ amount }} BGN!</h1>
+    </div>
+<a class="text-center fw-bold" href="{% url 'notes list' %}">Return to home page</a>
+{% endblock %}

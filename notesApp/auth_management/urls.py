@@ -5,7 +5,7 @@ from notesApp.auth_management.views import create_profile, edit_profile, login_v
 
 urlpatterns = [
     path('profile/create/', create_profile, name="create profile"),
-    path('profile/edit/<int:pk>/', edit_profile, name="edit profile"),
+    path('profile/edit/', edit_profile, name="edit profile"),
     path('logout/', LogoutView.as_view(), name="logout"),
     path('login/', login_view, name="login"),
     path('changepass/', change_password, name="change password"),

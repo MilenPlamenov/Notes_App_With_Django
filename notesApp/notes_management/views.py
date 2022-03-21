@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import generic
 
@@ -20,31 +21,43 @@ def notes_list(request):
     return render(request, "notes_list.html", context)
 
 
-# class NoteCreate(CreateView):
-#     model = Note
-#     template_name = "create.html"
-#     success_url = '/'
-#     fields = ["subject", "text", "date"]
+class NoteCreate(CreateView):
+    model = Note
+    template_name = "create.html"
+    success_url = '/'
+    fields = ["subject", "text", "date"]
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        note = form.save(commit=False)
+        note.user = self.request.user
+        note.save()
+        return redirect('notes list')
 
 
-def create_note(request):
-    if not request.user.is_authenticated:
-        return redirect("create profile")
-    if request.method == 'POST':
-        form = CreateNote(request.POST, request.FILES)
-        if form.is_valid():
-            note = form.save(commit=False)
-            note.user = request.user
-            note.save()
-            return redirect('notes list')
-    else:
-        form = CreateNote()
-
-    context = {
-        "form": form,
-    }
-
-    return render(request, 'create.html', context)
+# def create_note(request):
+#     if not request.user.is_authenticated:
+#         return redirect("create profile")
+#     if request.method == 'POST':
+#         form = CreateNote(request.POST, request.FILES)
+#         if form.is_valid():
+#             note = form.save(commit=False)
+#             note.user = request.user
+#             note.save()
+#             return redirect('notes list')
+#     else:
+#         form = CreateNote()
+#
+#     context = {
+#         "form": form,
+#     }
+#
+#     return render(request, 'create.html', context)
 
 
 class NotesDetailView(DetailView):

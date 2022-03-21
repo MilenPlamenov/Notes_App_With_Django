@@ -22,7 +22,10 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link text-danger text-decoration-underline"
-                           href="{% url 'edit profile' user.id %}">{{ user.username }}</a>
+                           href="{% url 'edit profile' %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'charge' %}">Pay the bills</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'note create' %}">Create Note</a>

@@ -34,7 +34,7 @@ def create_profile(request):
 
 
 @transaction.atomic
-def edit_profile(request, pk):
+def edit_profile(request):
     profile = request.user.get_username()
     if profile != request.user.username:
         return redirect("notes list")

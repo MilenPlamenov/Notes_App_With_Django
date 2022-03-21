@@ -7,4 +7,5 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('notesApp.notes_management.urls')),
                   path('', include('notesApp.auth_management.urls')),
+                  path('', include('notesApp.payment_management.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

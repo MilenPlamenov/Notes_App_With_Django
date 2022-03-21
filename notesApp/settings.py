@@ -24,7 +24,8 @@ DJANGO_APPS = (
 
 APPLICATION_APPS = (
     'notesApp.notes_management',
-    'notesApp.auth_management'
+    'notesApp.auth_management',
+    'notesApp.payment_management',
 )
 
 THIRD_PARTY_APPS = (
