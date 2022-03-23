@@ -55,18 +55,35 @@ class EditExtendedProfile(forms.ModelForm):
 class DeleteProfile(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DeleteProfile, self).__init__(*args, **kwargs)
-        self.fields['field'].widget.attrs['readonly'] = True
+        for field_name in ['username']:
+            self.fields[field_name].help_text = None
 
     class Meta:
         model = User
         fields = ("username", "first_name", "last_name",)
+        widgets = {
+            'username': forms.TextInput(
+                attrs={
+                    'disabled': True,
+                }
+            ),
+            'first_name': forms.TextInput(
+                attrs={
+                    'disabled': True,
+                }
+            ),
+            "last_name": forms.TextInput(
+                attrs={
+                    'disabled': True,
+                }
+            ),
+        }
 
 
 class DeleteExtendedProfile(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('description', 'birth', 'gender')
-        # widgets dont work gt fix this
         widgets = {
             'description': forms.TextInput(
                 attrs={

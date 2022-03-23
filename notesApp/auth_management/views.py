@@ -5,7 +5,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 
 from notesApp.auth_management.forms import PasswordChange, EditExtendedProfile, EditProfile, LoginProfile, \
-    CreateProfile, ProfileForm
+    CreateProfile, ProfileForm, DeleteExtendedProfile, DeleteProfile
 
 
 @transaction.atomic  # if one operation is invalid - all are
@@ -88,8 +88,8 @@ def delete_profile(request, pk):
     if not request.user.is_authenticated:
         return redirect('create profile')
     if request.method == "GET":
-        user_form = EditProfile(instance=request.user)
-        profile_form = EditExtendedProfile(instance=request.user.profile)
+        user_form = DeleteProfile(instance=request.user)
+        profile_form = DeleteExtendedProfile(instance=request.user.profile)
     else:
         profile.delete()
         return redirect('create profile')
