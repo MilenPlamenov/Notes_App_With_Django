@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import generic
 
@@ -8,6 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 
 
+# 1st cbv
 class NotesListView(generic.ListView):
     model = Note
     context_object_name = "notes"
@@ -21,6 +21,7 @@ def notes_list(request):
     return render(request, "notes_list.html", context)
 
 
+# 2nd cbv
 class NoteCreate(CreateView):
     model = Note
     template_name = "create.html"
@@ -40,31 +41,13 @@ class NoteCreate(CreateView):
         return redirect('notes list')
 
 
-# def create_note(request):
-#     if not request.user.is_authenticated:
-#         return redirect("create profile")
-#     if request.method == 'POST':
-#         form = CreateNote(request.POST, request.FILES)
-#         if form.is_valid():
-#             note = form.save(commit=False)
-#             note.user = request.user
-#             note.save()
-#             return redirect('notes list')
-#     else:
-#         form = CreateNote()
-#
-#     context = {
-#         "form": form,
-#     }
-#
-#     return render(request, 'create.html', context)
-
-
+# 3rd cbv
 class NotesDetailView(DetailView):
     model = Note
     template_name = "details.html"
 
 
+# 4th cbv
 class NotesUpdateView(UpdateView):
     model = Note
     fields = ["subject", "text", "date", "image_url"]
@@ -121,10 +104,37 @@ def update_note(request, pk):
     return render(request, "update_notes.html", context)
 
 
+# 5th cbv
 class NotesDeleteView(DeleteView):
     model = Note
     success_url = "/"
     template_name = "delete_notes.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        try:
+            return super(NotesDeleteView, self).get_object(queryset)
+        except AttributeError:
+            return None
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user != request.user:
+            return redirect('notes list')
+        return super(NotesDeleteView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user != request.user:
+            return redirect('notes list')
+        self.object.image_url.delete()
+        self.object.delete()
+        return redirect("notes list")
 
 
 def delete_note(request, pk):
