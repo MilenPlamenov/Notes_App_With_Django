@@ -8,4 +8,5 @@ urlpatterns = [
                   path('', include('notesApp.notes_management.urls')),
                   path('', include('notesApp.auth_management.urls')),
                   path('', include('notesApp.payment_management.urls')),
+                  path('', include('notesApp.tasks_management.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
