@@ -14,7 +14,9 @@ class Task(models.Model):
         null=True,
     )
 
-    is_done = models.BooleanField()
+    is_done = models.BooleanField(
+        default=False,
+    )
 
     user = models.ForeignKey(
         User,
