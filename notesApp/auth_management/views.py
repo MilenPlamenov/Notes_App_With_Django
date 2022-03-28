@@ -3,6 +3,7 @@ from django.contrib.auth import update_session_auth_hash, authenticate, login
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView
 
 from notesApp.auth_management.forms import PasswordChange, EditExtendedProfile, EditProfile, LoginProfile, \
     CreateProfile, ProfileForm, DeleteExtendedProfile, DeleteProfile
@@ -55,6 +56,11 @@ def edit_profile(request):
         "profile_form": profile_form,
     }
     return render(request, "edit_profile.html", context)
+
+
+class ProfileDetailView(DetailView):
+    model = User
+    template_name = "profile_details.html"
 
 
 def login_view(request):
