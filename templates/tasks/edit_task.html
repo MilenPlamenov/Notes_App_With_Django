@@ -1,0 +1,94 @@
+{% extends "notes_list.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #FFEBEE
+        }
+
+        .card {
+            width: 400px;
+            background-color: #fff;
+            border: none;
+            border-radius: 12px
+        }
+
+        label.radio {
+            cursor: pointer;
+            width: 100%
+        }
+
+        label.radio input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            pointer-events: none
+        }
+
+        label.radio span {
+            padding: 7px 14px;
+            border: 2px solid #eee;
+            display: inline-block;
+            color: #039be5;
+            border-radius: 10px;
+            width: 100%;
+            height: 48px;
+            line-height: 27px
+        }
+
+        label.radio input:checked + span {
+            border-color: #039BE5;
+            background-color: #81D4FA;
+            color: #fff;
+            border-radius: 9px;
+            height: 48px;
+            line-height: 27px
+        }
+
+        .form-control {
+            margin-top: 10px;
+            height: 48px;
+            border: 2px solid #eee;
+            border-radius: 10px
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border: 2px solid #039BE5
+        }
+
+        .agree-text {
+            font-size: 12px
+        }
+
+        .terms {
+            font-size: 12px;
+            text-decoration: none;
+            color: #039BE5
+        }
+
+        .confirm-button {
+            height: 50px;
+            border-radius: 10px
+        }
+    </style>
+
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+        <div class="card px-1 py-4 alert-warning">
+            <div class="card-body alert-warning">
+                <h3 class="card-title mb-3 text-center fw-bold">Create new task</h3>
+                <h6 class="text-center">*Your tasks will be visible in your <a
+                        href="{% url 'details profile' user.id %}">profile</a>!</h6>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <div class=" d-flex flex-column text-center px-5 mt-3 mb-3">
+                        <button class="btn btn-success btn-block confirm-button">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
