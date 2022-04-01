@@ -1,6 +1,38 @@
 {% extends "notes_list.html" %}
 
 {% block content %}
+    <style>
+        :root {
+            --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important;
+        }
+
+        .card {
+            background: #222;
+            border: 1px solid #dd2476;
+            color: rgba(250, 250, 250, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            border: 5px solid;
+            border-image-slice: 1;
+            background: var(--gradient) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            border-image-source: var(--gradient) !important;
+            text-decoration: none;
+            transition: all .4s ease;
+        }
+
+        .btn:hover, .btn:focus {
+            background: var(--gradient) !important;
+            -webkit-background-clip: none !important;
+            -webkit-text-fill-color: #fff !important;
+            border: 5px solid #fff !important;
+            box-shadow: #222 1px 0 10px;
+            text-decoration: underline;
+        }
+    </style>
     <div class="p-2 alert-warning">
         <h1 class="text-center fw-bold">{{ user.username }}</h1>
         <hr/>
@@ -21,21 +53,35 @@
             <a class="text-center" href="{% url 'edit profile' %}">Edit your profile</a>
         </div>
     </div>
-    <h2 class="text-center">Tasks:</h2>
-    <div class="container mx-auto mt-4">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn mr-2"><i class="fas fa-link"></i> Visit Site</a>
-                        <a href="#" class="btn "><i class="fab fa-github"></i> Github</a>
+    {% if tasks %}
+        <h2 class="text-center">Tasks:</h2>
+        <div class="container mx-auto mt-4">
+            <div class="row">
+                {% for task in tasks %}
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem;">
+                            <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Task: {{ task.name }}</h5>
+                                <p class="card-text">Description: {{ task.text }}</p>
+                                {% if task.is_done %}
+                                    <h6 class="card-subtitle mb-2 text-success fw-bold">Task is already done</h6>
+                                {% else %}
+                                    <h6 class="card-subtitle mb-2 text-danger fw-bold">Task is not done yet</h6>
+                                {% endif %}
+                                <a href="#" class="btn mr-2"><i class="fas fa-link"></i> Edit</a>
+                                <a href="#" class="btn "><i class="fab fa-github"></i> Delete</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
+
+    {% else %}
+        <h2 class="p-5 text-center">Get started with the tasks manager</h2>
+        <div class="text-center">
+            <a class="btn btn-outline-dark" href="{% url 'task create' %}">Create your first task</a>
+        </div>
+    {% endif %}
 {% endblock %}

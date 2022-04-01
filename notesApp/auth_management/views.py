@@ -7,6 +7,7 @@ from django.views.generic import DetailView
 
 from notesApp.auth_management.forms import PasswordChange, EditExtendedProfile, EditProfile, LoginProfile, \
     CreateProfile, ProfileForm, DeleteExtendedProfile, DeleteProfile
+from notesApp.tasks_management.models import Task
 
 
 @transaction.atomic  # if one operation is invalid - all are
@@ -61,6 +62,13 @@ def edit_profile(request):
 class ProfileDetailView(DetailView):
     model = User
     template_name = "profile_details.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['tasks'] = Task.objects.all()
+
+        return context
 
 
 def login_view(request):

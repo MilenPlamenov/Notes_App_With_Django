@@ -77,13 +77,17 @@
     </style>
 
     <div class="container mt-5 mb-5 d-flex justify-content-center">
-        <div class="card px-1 py-4">
-            <div class="card-body">
+        <div class="card px-1 py-4 alert-warning">
+            <div class="card-body alert-warning">
                 <h3 class="card-title mb-3 text-center fw-bold">Create new task</h3>
-                {{ form | crispy }}
-                <div class=" d-flex flex-column text-center px-5 mt-3 mb-3">
-                    <button class="btn btn-success btn-block confirm-button">Add</button>
-                </div>
+                <h6 class="text-center">*Your tasks will be visible in your <a href="{% url 'details profile' user.id %}">profile</a>!</h6>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <div class=" d-flex flex-column text-center px-5 mt-3 mb-3">
+                        <button class="btn btn-success btn-block confirm-button">Add</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
