@@ -70,7 +70,7 @@
                                     <h6 class="card-subtitle mb-2 text-danger fw-bold">Task is not done yet</h6>
                                 {% endif %}
                                 <a href="{% url 'task update' task.id %}" class="btn mr-2"><i class="fas fa-link"></i> Edit</a>
-                                <a href="#" class="btn "><i class="fab fa-github"></i> Delete</a>
+                                <a href="{% url 'task delete' task.id %}" class="btn "><i class="fab fa-github"></i> Delete</a>
                             </div>
                         </div>
                     </div>
