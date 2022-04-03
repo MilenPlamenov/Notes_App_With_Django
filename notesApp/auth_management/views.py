@@ -32,7 +32,7 @@ def create_profile(request):
         "user_form": user_form,
         "profile_form": profile_form,
     }
-    return render(request, 'create_profile.html', context)
+    return render(request, 'profile/create_profile.html', context)
 
 
 @transaction.atomic
@@ -56,12 +56,12 @@ def edit_profile(request):
         "user_form": user_form,
         "profile_form": profile_form,
     }
-    return render(request, "edit_profile.html", context)
+    return render(request, "profile/edit_profile.html", context)
 
 
 class ProfileDetailView(DetailView):
     model = User
-    template_name = "profile_details.html"
+    template_name = "profile/profile_details.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,7 +91,7 @@ def login_view(request):
     context = {
         "form": form,
     }
-    return render(request, "login_profile.html", context)
+    return render(request, "profile/login_profile.html", context)
 
 
 @transaction.atomic
@@ -112,7 +112,7 @@ def delete_profile(request, pk):
         "profile_form": profile_form,
     }
 
-    return render(request, "delete_profile.html", context)
+    return render(request, "profile/delete_profile.html", context)
 
 
 def change_password(request):
@@ -134,5 +134,5 @@ def change_password(request):
     context = {
         "form": form,
     }
-    return render(request, "change_password.html", context)
+    return render(request, "profile/change_password.html", context)
 

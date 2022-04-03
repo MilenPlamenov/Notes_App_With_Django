@@ -31,7 +31,7 @@ def charge(request):
             description='paying the bills',
         )
         return redirect(reverse('success message', args=[amount]))
-    return render(request, 'card_payments.html')
+    return render(request, 'payments/card_payments.html')
 
 
 def success_message(request, args):
@@ -39,4 +39,4 @@ def success_message(request, args):
     context = {
         'amount': amount
     }
-    return render(request, 'success_message_payment.html', context)
+    return render(request, 'payments/success_message_payment.html', context)

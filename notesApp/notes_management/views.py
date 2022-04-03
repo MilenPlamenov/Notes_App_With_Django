@@ -24,7 +24,7 @@ def notes_list(request):
 # 2nd cbv
 class NoteCreate(CreateView):
     model = Note
-    template_name = "create.html"
+    template_name = "notes/create.html"
     success_url = '/'
     fields = ["subject", "text", "date", "image_url"]
 
@@ -44,7 +44,7 @@ class NoteCreate(CreateView):
 # 3rd cbv
 class NotesDetailView(DetailView):
     model = Note
-    template_name = "details.html"
+    template_name = "notes/details.html"
 
 
 # 4th cbv
@@ -52,7 +52,7 @@ class NotesUpdateView(UpdateView):
     model = Note
     fields = ["subject", "text", "date", "image_url"]
     success_url = "/"
-    template_name = "update_notes.html"
+    template_name = "notes/update_notes.html"
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -101,14 +101,14 @@ def update_note(request, pk):
         "form": form,
         "note": note,
     }
-    return render(request, "update_notes.html", context)
+    return render(request, "notes/update_notes.html", context)
 
 
 # 5th cbv
 class NotesDeleteView(DeleteView):
     model = Note
     success_url = "/"
-    template_name = "delete_notes.html"
+    template_name = "notes/delete_notes.html"
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -155,4 +155,4 @@ def delete_note(request, pk):
         "form": form,
         "note": note,
     }
-    return render(request, "delete_notes.html", context)
+    return render(request, "notes/delete_notes.html", context)
