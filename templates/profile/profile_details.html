@@ -32,56 +32,154 @@
             box-shadow: #222 1px 0 10px;
             text-decoration: underline;
         }
+
+        body {
+            background: #eee
+        }
+
+        .card {
+            border: none;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #E1BEE7;
+            transform: scaleY(1);
+            transition: all 0.5s;
+            transform-origin: bottom
+        }
+
+        .card:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #8E24AA;
+            transform: scaleY(0);
+            transition: all 0.5s;
+            transform-origin: bottom
+        }
+
+        .card:hover::after {
+            transform: scaleY(1)
+        }
+
+        .fonts {
+            font-size: 11px
+        }
+
+        .social-list {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            padding: 0
+        }
+
+        .social-list li {
+            padding: 10px;
+            color: #8E24AA;
+            font-size: 19px
+        }
+
+        .buttons a:nth-child(1) {
+            border: 1px solid #8E24AA !important;
+            color: #8E24AA;
+            height: 40px
+        }
+
+        .buttons a:nth-child(1):hover {
+            border: 1px solid #8E24AA !important;
+            color: #fff;
+            height: 40px;
+            background-color: #8E24AA
+        }
+
+        .buttons a:nth-child(2) {
+            border: 1px solid #8E24AA !important;
+            background-color: #8E24AA;
+            color: #fff;
+            height: 40px
+        }
     </style>
-    <div class="p-2 alert-warning">
-        <h1 class="text-center fw-bold">{{ user.username }}</h1>
-        <hr/>
-        {% if user.first_name %}
-            {% if user.last_name %}
-                <h2 class="text-center">
-                    Name: {{ user.first_name }} {{ user.last_name }}
-                </h2>
-            {% endif %}
-        {% endif %}
-        {% if user.profile.description %}
-            <h3 class="text-center">Description: {{ user.profile.description }}</h3>
-        {% endif %}
-        {% if user.profile.birth %}
-            <h3 class="text-center">Date of birth: {{ user.profile.birth }}</h3>
-        {% endif %}
-        <div class="text-center fw-bold">
-            <a class="text-center" href="{% url 'edit profile' %}">Edit your profile</a>
-        </div>
-    </div>
-    {% if tasks %}
-        <h2 class="text-center">Tasks:</h2>
-        <div class="container mx-auto mt-4">
-            <div class="row">
-                {% for task in tasks %}
-                    <div class="col-md-4">
-                        <div class="card" style="width: 18rem;">
-                            <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Task: {{ task.name }}</h5>
-                                <p class="card-text">Description: {{ task.text }}</p>
-                                {% if task.is_done %}
-                                    <h6 class="card-subtitle mb-2 text-success fw-bold">Task is already done</h6>
+
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="card p-3 py-4">
+                    <div class="text-center"><img alt="{{ user.username }}" src="https://i.imgur.com/bDLhJiP.jpg"
+                                                  width="100"
+                                                  class="rounded-circle"></div>
+                    <div class="text-center mt-3"><span
+                            class="bg-secondary p-1 px-4 rounded text-white">ID: {{ user.id }}</span>
+                        <h5 class="mt-2 mb-0">{{ user.username }}</h5>
+                        {% if user.first_name %}
+                            {% if user.last_name %}
+                                <h6 class="mt-2 mb-0">Full name: {{ user.first_name }} {{ user.last_name }}</h6>
+                            {% endif %}
+                        {% endif %}
+                        {% if user.profile.birth %}
+                            <span>Born: {{ user.profile.birth }}</span>
+                        {% endif %}
+                        <div class="px-4 mt-1">
+                            {% if user.profile.description %}
+                                <p class="fonts">Profile Description: {{ user.profile.description }}</p>
                                 {% else %}
-                                    <h6 class="card-subtitle mb-2 text-danger fw-bold">Task is not done yet</h6>
-                                {% endif %}
-                                <a href="{% url 'task update' task.id %}" class="btn mr-2"><i class="fas fa-link"></i> Edit</a>
-                                <a href="{% url 'task delete' task.id %}" class="btn "><i class="fab fa-github"></i> Delete</a>
-                            </div>
+                                <p class="fonts">The user didn't provide information about him/her.</p>
+                            {% endif %}
                         </div>
+                    {% if request.user.profile == object.profile %}
+                        <div class="buttons">
+                            <a href="{% url 'edit profile' %}" class="btn btn-outline-primary px-4">Edit Profile</a>
+                            <a href="{% url 'delete profile' object.id %}" class="btn btn-primary px-4 ms-3">Delete Profile</a>
+                        </div>
+                    {% endif %}
                     </div>
-                {% endfor %}
+                </div>
             </div>
         </div>
 
-    {% else %}
-        <h2 class="p-5 text-center">Get started with the tasks manager</h2>
-        <div class="text-center">
-            <a class="btn btn-outline-dark" href="{% url 'task create' %}">Create your first task</a>
-        </div>
-    {% endif %}
+        {% if tasks %}
+            <h2 class="text-center">Tasks:</h2>
+            <div class="container mx-auto mt-4">
+                <div class="row">
+                    {% for task in tasks %}
+                        <div class="col-md-4">
+                            <div class="card" style="width: 18rem;">
+                                <img src="https://i.imgur.com/ZTkt4I5.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Task: {{ task.name }}</h5>
+                                    <p class="card-text">Description: {{ task.text }}</p>
+                                    {% if task.is_done %}
+                                        <h6 class="card-subtitle mb-2 text-success fw-bold">Task is already done</h6>
+                                    {% else %}
+                                        <h6 class="card-subtitle mb-2 text-danger fw-bold">Task is not done yet</h6>
+                                    {% endif %}
+                                    <a href="{% url 'task update' task.id %}" class="btn mr-2"><i
+                                            class="fas fa-link"></i> Edit</a>
+                                    <a href="{% url 'task delete' task.id %}" class="btn "><i class="fab fa-github"></i>
+                                        Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        {% else %}
+            <h2 class="p-5 text-center">Get started with the tasks manager</h2>
+            <div class="text-center">
+                <a class="btn btn-outline-dark" href="{% url 'task create' %}">Create your first task</a>
+            </div>
+        {% endif %}
 {% endblock %}
