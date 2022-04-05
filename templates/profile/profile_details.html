@@ -134,16 +134,17 @@
                         <div class="px-4 mt-1">
                             {% if user.profile.description %}
                                 <p class="fonts">Profile Description: {{ user.profile.description }}</p>
-                                {% else %}
+                            {% else %}
                                 <p class="fonts">The user didn't provide information about him/her.</p>
                             {% endif %}
                         </div>
-                    {% if request.user.profile == object.profile %}
-                        <div class="buttons">
-                            <a href="{% url 'edit profile' %}" class="btn btn-outline-primary px-4">Edit Profile</a>
-                            <a href="{% url 'delete profile' object.id %}" class="btn btn-primary px-4 ms-3">Delete Profile</a>
-                        </div>
-                    {% endif %}
+                        {% if request.user.profile == user.profile %}
+                            <div class="buttons">
+                                <a href="{% url 'edit profile' %}" class="btn btn-outline-primary px-4">Edit Profile</a>
+                                <a href="{% url 'delete profile' user.id %}" class="btn btn-primary px-4 ms-3">Delete
+                                    Profile</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -160,15 +161,19 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Task: {{ task.name }}</h5>
                                     <p class="card-text">Description: {{ task.text }}</p>
+                                    <h6>{{ task.user }}</h6>
                                     {% if task.is_done %}
                                         <h6 class="card-subtitle mb-2 text-success fw-bold">Task is already done</h6>
                                     {% else %}
                                         <h6 class="card-subtitle mb-2 text-danger fw-bold">Task is not done yet</h6>
                                     {% endif %}
-                                    <a href="{% url 'task update' task.id %}" class="btn mr-2"><i
-                                            class="fas fa-link"></i> Edit</a>
-                                    <a href="{% url 'task delete' task.id %}" class="btn "><i class="fab fa-github"></i>
-                                        Delete</a>
+                                    {% if request.user == task.user %}
+                                        <a href="{% url 'task update' task.id %}" class="btn mr-2"><i
+                                                class="fas fa-link"></i> Edit</a>
+                                        <a href="{% url 'task delete' task.id %}" class="btn "><i
+                                                class="fab fa-github"></i>
+                                            Delete</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -177,9 +182,15 @@
             </div>
 
         {% else %}
-            <h2 class="p-5 text-center">Get started with the tasks manager</h2>
-            <div class="text-center">
-                <a class="btn btn-outline-dark" href="{% url 'task create' %}">Create your first task</a>
-            </div>
+            {% if user_checker %}
+                <h2 class="p-5 text-center">Get started with the tasks manager</h2>
+                <div class="text-center">
+                    <a class="btn btn-outline-dark" href="{% url 'task create' %}">Create your first task</a>
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <h4 class="text-danger">Current user doesn't have any tasks !</h4>
+                </div>
+            {% endif %}
         {% endif %}
 {% endblock %}

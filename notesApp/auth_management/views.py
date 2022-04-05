@@ -69,12 +69,29 @@ class ProfileDetailView(DetailView):
 
         return super().dispatch(request, *args, **kwargs)
 
+    def get_queryset(self, *args, **kwargs):
+        return Task.objects.filter(pk=self.kwargs['pk'])
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['tasks'] = Task.objects.all()
-
+        context['tasks'] = Task.objects.get()
+        # should fix this to show the tasks for each user !
         return context
+
+
+def profile_details(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('create profile')
+
+    user = User.objects.get(pk=pk)
+    context = {
+        'user': user,
+        'tasks': Task.objects.filter(user=user),
+        'user_checker': user == request.user
+        # check if that is the currently logged in user or the user is checking other profile
+    }
+
+    return render(request, "profile/profile_details.html", context)
 
 
 def login_view(request):
@@ -141,4 +158,3 @@ def change_password(request):
         "form": form,
     }
     return render(request, "profile/change_password.html", context)
-

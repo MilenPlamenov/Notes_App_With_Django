@@ -22,7 +22,7 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link text-danger text-decoration-underline"
-                           href="{% url 'details profile' user.id %}">{{ user.username }}</a>
+                           href="{% url 'details profile' request.user.id %}">{{ request.user.username }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'charge' %}">Donate</a>
@@ -73,7 +73,8 @@
                                         Made: {{ object.date }}
                                     </p>
                                     <p class="fw-bold">
-                                        Owner: <span><a href="{% url 'details profile' object.user.id %}">{{ object.user.username }}</a></span>
+                                        Owner: <span><a
+                                            href="{% url 'details profile' object.user.id %}">{{ object.user.username }}</a></span>
                                     </p>
                                     {% if request.user == object.user %}
                                         <a class="button btn btn-lg btn-primary p-2"
