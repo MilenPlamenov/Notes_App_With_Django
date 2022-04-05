@@ -89,6 +89,6 @@ class TaskDelete(DeleteView):
         self.object = self.get_object()
         if self.object.user != request.user:
             return redirect('notes list')
-        # self.object.image_url.delete()
+        self.object.image_url.delete()
         self.object.delete()
         return redirect("notes list")
