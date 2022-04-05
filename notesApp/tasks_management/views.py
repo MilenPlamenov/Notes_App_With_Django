@@ -8,7 +8,7 @@ class TaskCreate(CreateView):
     model = Task
     template_name = "tasks/create_task.html"
     success_url = '/'
-    fields = ["name", "text", "is_done"]
+    fields = ["name", "text", "is_done", "image_url"]
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -28,7 +28,7 @@ class TaskCreate(CreateView):
 
 class TaskUpdate(UpdateView):
     model = Task
-    fields = ["name", "text", "is_done"]
+    fields = ["name", "text", "is_done", "image_url"]
     success_url = "/"
     template_name = "tasks/edit_task.html"
 
