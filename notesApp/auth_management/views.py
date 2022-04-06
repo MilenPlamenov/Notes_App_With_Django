@@ -16,8 +16,8 @@ def create_profile(request):
         user_form = CreateProfile()
         profile_form = ProfileForm()
     else:
-        user_form = CreateProfile(request.POST)
-        profile_form = ProfileForm(request.POST)
+        user_form = CreateProfile(request.POST, request.FILES)
+        profile_form = ProfileForm(request.POST, request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -45,8 +45,8 @@ def edit_profile(request):
         user_form = EditProfile(instance=request.user)
         profile_form = EditExtendedProfile(instance=request.user.profile)
     else:
-        user_form = EditProfile(request.POST, instance=request.user)
-        profile_form = EditExtendedProfile(request.POST, instance=request.user.profile)
+        user_form = EditProfile(request.POST, request.FILES, instance=request.user)
+        profile_form = EditExtendedProfile(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -128,6 +128,7 @@ def delete_profile(request, pk):
         user_form = DeleteProfile(instance=request.user)
         profile_form = DeleteExtendedProfile(instance=request.user.profile)
     else:
+        profile.profile.image_url.delete()
         profile.delete()
         return redirect('create profile')
     context = {

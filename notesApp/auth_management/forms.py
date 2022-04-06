@@ -49,7 +49,7 @@ class EditProfile(forms.ModelForm):
 class EditExtendedProfile(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('description', 'birth', 'gender')
+        fields = ('description', 'birth', 'gender', 'image_url')
 
 
 class DeleteProfile(forms.ModelForm):
