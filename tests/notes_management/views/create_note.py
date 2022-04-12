@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from notesApp.auth_management.models import Profile
 from notesApp.notes_management.models import Note
 
 ModelUser = get_user_model()
