@@ -1,8 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.test import Client
 
+from notesApp.notes_management.models import Note
 
-class LoginFunction:
+
+def create_valid_note(user):
+    note = Note.objects.create(subject='fwq', text='random', date='2022-04-09 19:37:09', user_id=user.id)
+    return note
+
+
+class UserAndClientGenerator:
     ModelUser = get_user_model()
     VALID_USER_CREDENTIALS = {
         'username': 'test1',

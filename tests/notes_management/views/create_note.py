@@ -3,34 +3,18 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from notesApp.notes_management.models import Note
+from tests.notes_management.views.core import UserAndClientGenerator
 
 ModelUser = get_user_model()
 
 
-class NoteCreateTests(TestCase):
-    VALID_USER_CREDENTIALS = {
-        'username': 'test1',
-        'password': '12345qwe',
-    }
-    VALID_PROFILE_CREDENTIALS = {
-        'gender': 'm',
-    }
+class NoteCreateTests(TestCase, UserAndClientGenerator):
 
     VALID_NOTE_CREDENTIALS = {
         'subject': 'idk',
         'text': 'random',
         'date': '2022-04-09 19:37:09',
     }
-
-    def login(self):
-        self.username = self.VALID_USER_CREDENTIALS['username']
-        self.password = self.VALID_USER_CREDENTIALS['password']
-        user = ModelUser.objects.create_user(username=self.username)
-        user.set_password(self.password)
-        user.save()
-        client = Client()
-        client.login(username=self.username, password=self.password)
-        return user, client
 
     def test_about_correct_url_when_not_authenticated_user_expect_redirect_to_create_profile(self):
         client = Client()
@@ -60,7 +44,7 @@ class NoteCreateTests(TestCase):
     def test_creating_note_with_invalid_data_expect_failure(self):
         user, client = self.login()
 
-        response = client.post(reverse('note create'), {
+        client.post(reverse('note create'), {
             'text': 'random',
             'date': 'invalid date',
         })
