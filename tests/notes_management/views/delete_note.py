@@ -25,3 +25,19 @@ class NoteDeleteTests(TestCase, UserAndClientGenerator):
         note_one = create_valid_note(user)
         response = client.get(reverse('note delete', args=(note_one.id,)))
         self.assertTemplateUsed(response, 'notes/delete_notes.html')
+
+    def test_if_the_logic_of_the_view_works_correctly(self):
+        """
+            Creating note ->
+             test if its created ->
+              delete it ->
+               test if its deleted ->
+                test if redirected to the main page
+        """
+        user, client = self.login()
+        note_one = create_valid_note(user)
+        self.assertEqual(Note.objects.count(), 1)
+        response = client.post(reverse('note delete', args=(note_one.id,)))
+        self.assertEqual(Note.objects.count(), 0)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('notes list'))
