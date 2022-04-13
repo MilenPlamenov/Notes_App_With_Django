@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
 
+from notesApp.notes_management.models import Note
 from tests.notes_management.views.core import UserAndClientMixin, create_valid_note
 
 ModelUser = get_user_model()
@@ -25,12 +26,14 @@ class TestNoteUpdate(TestCase, UserAndClientMixin):
         response = client.get(reverse('note update', args=(note_one.id,)))
         self.assertTemplateUsed(response, 'notes/update_notes.html')
 
-    # def test_editing_note_with_valid_data_expect_success(self):
-    #     user, client = self.login()
-    #     note_one = Note.objects.create(subject='fwq', user_id=user.id)
-    #     response = client.get(reverse('note update', args=(note_one.id,)))
-    #
-    #     self.assertEqual(note_one.subject, 'new subject')
+    def test_editing_note_with_valid_data_expect_success(self):
+        user, client = self.login()
+        note_one = create_valid_note(user)
+        response = client.post(reverse('note update', args=(note_one.id,)), data={'subject': 'changed name'})
+
+        updated_note = Note.objects.get(pk=note_one.pk)
+        self.assertEqual(updated_note.subject, 'changed name')
+        self.assertRedirects(response, reverse('notes list'))
 
     def test_if_different_user_try_to_edit_other_user_note(self):
         user, client = self.login()  # logged user ,but made the note to refer to user2
