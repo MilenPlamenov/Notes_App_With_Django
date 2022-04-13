@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 
-class NoteListTests(TestCase):
+class TestNoteList(TestCase):
     def test_about_correct_url(self):
         client = Client()
         response = client.get(reverse('notes list'))

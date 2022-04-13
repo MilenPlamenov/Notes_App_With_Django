@@ -3,12 +3,12 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from notesApp.notes_management.models import Note
-from tests.notes_management.views.core import UserAndClientGenerator, create_valid_note
+from tests.notes_management.views.core import UserAndClientMixin, create_valid_note
 
 ModelUser = get_user_model()
 
 
-class NoteDeleteTests(TestCase, UserAndClientGenerator):
+class TestNoteDelete(TestCase, UserAndClientMixin):
     def test_about_correct_url_when_not_authenticated_user_expect_redirect_to_create_profile(self):
         client = Client()
         response = client.get(reverse('note delete', args=(3,)))

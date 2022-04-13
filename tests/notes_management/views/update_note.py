@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from tests.notes_management.views.core import UserAndClientGenerator, create_valid_note
+from tests.notes_management.views.core import UserAndClientMixin, create_valid_note
 
 ModelUser = get_user_model()
 
 
-class NoteUpdateTests(TestCase, UserAndClientGenerator):
+class TestNoteUpdate(TestCase, UserAndClientMixin):
     def test_about_correct_url_when_not_authenticated_user_expect_redirect_to_create_profile(self):
         client = Client()
         response = client.get(reverse('note update', args=(3,)))

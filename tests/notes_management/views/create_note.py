@@ -3,12 +3,12 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from notesApp.notes_management.models import Note
-from tests.notes_management.views.core import UserAndClientGenerator
+from tests.notes_management.views.core import UserAndClientMixin
 
 ModelUser = get_user_model()
 
 
-class NoteCreateTests(TestCase, UserAndClientGenerator):
+class TestNoteCreate(TestCase, UserAndClientMixin):
 
     VALID_NOTE_CREDENTIALS = {
         'subject': 'idk',

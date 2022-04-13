@@ -9,7 +9,7 @@ def create_valid_note(user):
     return note
 
 
-class UserAndClientGenerator:
+class UserAndClientMixin:
     ModelUser = get_user_model()
     VALID_USER_CREDENTIALS = {
         'username': 'test1',
