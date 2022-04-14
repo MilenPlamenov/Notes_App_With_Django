@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from notesApp.notes_management.models import Note
-from tests.notes_management.views.core import UserAndClientMixin, create_valid_note
+from tests.core import UserAndClientMixin, create_valid_note
 
 ModelUser = get_user_model()
 
