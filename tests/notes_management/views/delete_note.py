@@ -41,3 +41,11 @@ class TestNoteDelete(TestCase, UserAndClientMixin):
         self.assertEqual(Note.objects.count(), 0)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('notes list'))
+
+    def test_if_different_user_try_to_delete_other_user_note(self):
+        user, client = self.login()  # logged user ,but made the note to refer to user2
+        user2 = ModelUser.objects.create_user(username='user2')
+        note_one = create_valid_note(user2)
+        response = client.get(reverse('note delete', args=(note_one.id,)))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('notes list'))
