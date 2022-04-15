@@ -8,7 +8,7 @@ from tests.core import UserAndClientMixin
 ModelUser = get_user_model()
 
 
-class TestNoteCreate(TestCase, UserAndClientMixin):
+class NoteCreateTests(TestCase, UserAndClientMixin):
 
     VALID_NOTE_CREDENTIALS = {
         'subject': 'idk',
@@ -16,10 +16,11 @@ class TestNoteCreate(TestCase, UserAndClientMixin):
         'date': '2022-04-09 19:37:09',
     }
 
-    def test_about_correct_url_when_not_authenticated_user_expect_redirect_to_create_profile(self):
+    def test_about_correct_url_when_not_authenticated_user_expect_redirect_to_login(self):
         client = Client()
         response = client.get(reverse('note create'))
         self.assertEqual(response.status_code, 302)  # 302 -> should redirect the user to the login page
+        self.assertRedirects(response, reverse('login'))
 
     def test_about_correct_url_when_authenticated_user_expect_success(self):
         user, client = self.login()  # function to authenticate user ,because the vie has user required !

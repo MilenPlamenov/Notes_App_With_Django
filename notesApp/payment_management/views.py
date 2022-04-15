@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 import stripe
 from django.urls import reverse
 
-stripe.api_key = "KEY TO BE ADDED"
+stripe.api_key = "sk_test_51Keh4BGrEyPil1dZSZJc2XhTcMNhYAIWEGCDpuIh0zPycac3P7bggBSJqHCRuYIgMnkg4Mb1eJ97zP94XKol3tpS00rwtA50Ks"
 
 
 '''

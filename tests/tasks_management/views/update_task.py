@@ -8,7 +8,7 @@ from tests.core import UserAndClientMixin, create_valid_task
 ModelUser = get_user_model()
 
 
-class TestTaskUpdate(TestCase, UserAndClientMixin):
+class TaskUpdateTests(TestCase, UserAndClientMixin):
     def test_about_correct_url_when_not_authenticated_user_expect_redirect_to_login_page(self):
         client = Client()
         response = client.get(reverse('task update', args=(3,)))

@@ -9,7 +9,7 @@ from tests.core import UserAndClientMixin
 ModelUser = get_user_model()
 
 
-class TestTaskCreate(TestCase, UserAndClientMixin):
+class TaskCreateTests(TestCase, UserAndClientMixin):
 
     VALID_TASK_CREDENTIALS = {
         'name': 'idk',
