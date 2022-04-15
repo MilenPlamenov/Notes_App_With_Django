@@ -28,7 +28,7 @@ def charge(request):
             customer=customer,
             amount=amount * 100,
             currency='bgn',
-            description='paying the bills',
+            description='donation',
         )
         return redirect(reverse('success message', args=[amount]))
     return render(request, 'payments/card_payments.html')
