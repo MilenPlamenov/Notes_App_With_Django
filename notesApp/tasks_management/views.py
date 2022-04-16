@@ -23,9 +23,6 @@ class TaskCreate(CreateView):
         return redirect('notes list')
 
 
-# TODO Making random task taker with {{ value|random }} 4 fun
-
-
 class TaskUpdate(UpdateView):
     model = Task
     fields = ["name", "text", "is_done", "image_url"]
